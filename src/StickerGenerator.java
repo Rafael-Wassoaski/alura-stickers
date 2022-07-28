@@ -8,8 +8,10 @@ import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Font;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 public class StickerGenerator {
+
     public void generateSticker(InputStream inputStream, String bottomMsg) throws IOException{
         
         BufferedImage originalImage = ImageIO.read(inputStream);
@@ -26,9 +28,20 @@ public class StickerGenerator {
         newImageGraphics.setFont(imageTextFont);
         newImageGraphics.setColor(Color.YELLOW);
         newImageGraphics.drawString(bottomMsg, originalImageWidth / 2 - ((bottomMsg.length() / 2) * (52/2)), newImageHeight - 11);
-        ImageIO.write(newImage, "png", new File("src/public/images/saida.png"));
+
+        String sanitizedFileName = sanitizeFileName(bottomMsg);
+        System.out.println(sanitizedFileName);
+        ImageIO.write(newImage, "png", new File("src/public/images/" + sanitizedFileName + ".png"));
     }
 
+
+    private String sanitizeFileName(String stickerName){
+        String spaceSanitizedFileName =  stickerName.replaceAll(" ", "_");
+        String dashSanitizedFileName =  spaceSanitizedFileName.replaceAll("/", "_");
+        String colonSanitizedFileName =  spaceSanitizedFileName.replaceAll(":", "_");
+
+        return colonSanitizedFileName;
+    }
     // public static void main(String[] args) {
 
     //     try {

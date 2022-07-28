@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import entity.Content;
 import util.JSONParser;
 
-public class IMDBParser {
+public class IMDBParser implements Parser{
     public List<Content> parse(String json) {
         JSONParser jsonParser = new JSONParser();
         List<Map<String, String>> contentStrings = jsonParser.parse(json);

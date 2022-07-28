@@ -3,6 +3,7 @@ import java.net.URL;
 import java.util.List;
 import entity.Content;
 import util.parsers.NasaParser;
+import util.parsers.Parser;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -13,14 +14,13 @@ public class App {
         HttpClientRequester nasaRequester = new HttpClientRequester();
         String bodyResponse = nasaRequester.get(url);
 
-        NasaParser nasaParser = new NasaParser();
+        Parser nasaParser = new NasaParser();
         List<Content> contentList = nasaParser.parse(bodyResponse);
 
         StickerGenerator stickerGenerator = new StickerGenerator();
 
         for (Content content : contentList) {
             System.out.println("Title: " + content.getTitle());
-            // System.out.println("Ratio: " + movie.get("imDbRating"));
             System.out.println("Image: " + content.getImageUrl());
             System.out.println();
 

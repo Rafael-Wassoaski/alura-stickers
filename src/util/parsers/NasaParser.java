@@ -1,15 +1,12 @@
 package util.parsers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import entity.Content;
 import util.JSONParser;
 
-public class NasaParser {
+public class NasaParser implements Parser{
     public List<Content> parse(String json) {
         JSONParser jsonParser = new JSONParser();
         List<Map<String, String>> contentStrings = jsonParser.parse(json);
