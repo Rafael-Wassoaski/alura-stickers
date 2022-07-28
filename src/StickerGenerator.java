@@ -10,7 +10,7 @@ import java.awt.Font;
 import java.net.URL;
 
 public class StickerGenerator {
-    public static void generateSticker(InputStream inputStream, String bottomMsg) throws IOException{
+    public void generateSticker(InputStream inputStream, String bottomMsg) throws IOException{
         
         BufferedImage originalImage = ImageIO.read(inputStream);
 
@@ -29,14 +29,14 @@ public class StickerGenerator {
         ImageIO.write(newImage, "png", new File("src/public/images/saida.png"));
     }
 
-    public static void main(String[] args) {
+    // public static void main(String[] args) {
 
-        try {
-            InputStream inputStream = new URL("").openStream();
-            generateSticker(inputStream, "teste");
-        } catch (Exception e) {
-            System.out.println("Erro: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+    //     try {
+    //         InputStream inputStream = new URL("blob:https://web.whatsapp.com/19286860-d970-4261-839a-4ab2f2b922d4").openStream();
+    //         generateSticker(inputStream, "Sapatenis");
+    //     } catch (Exception e) {
+    //         System.out.println("Erro: " + e.getMessage());
+    //         e.printStackTrace();
+    //     }
+    // }
 }

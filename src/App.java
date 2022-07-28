@@ -1,32 +1,31 @@
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.Builder;
-import java.net.http.HttpResponse.BodyHandlers;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
-import java.util.Map;
-import util.JsonParser;
+import entity.Content;
+import util.parsers.NasaParser;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        String url = "https://alura-imdb-api.herokuapp.com/movies";
-        URI address = new URI(url);
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest httpRequest = HttpRequest.newBuilder(address).GET().build();
+        // String url = "https://alura-imdb-api.herokuapp.com/movies";
+        String url =
+                "https://api.nasa.gov/planetary/apod?api_key=M7DOB8pg3CzacxS7DN2SCsXh2kObwfOB9KjG00FJ&start_date=2022-06-12";
 
-        HttpResponse<String> httpResponse = client.send(httpRequest, BodyHandlers.ofString());
-        String bodyResponse = httpResponse.body();
+        HttpClientRequester nasaRequester = new HttpClientRequester();
+        String bodyResponse = nasaRequester.get(url);
 
-        JsonParser jsonParser = new JsonParser();
-        List<Map<String, String>> moviesList = jsonParser.parse(bodyResponse);
+        NasaParser nasaParser = new NasaParser();
+        List<Content> contentList = nasaParser.parse(bodyResponse);
 
-        for (Map<String,String> movie : moviesList) {
-            System.out.println("Title: " + movie.get("title"));
-            System.out.println("Ratio: " + movie.get("imDbRating"));
-            System.out.println("Image: " + movie.get("image"));
+        StickerGenerator stickerGenerator = new StickerGenerator();
+
+        for (Content content : contentList) {
+            System.out.println("Title: " + content.getTitle());
+            // System.out.println("Ratio: " + movie.get("imDbRating"));
+            System.out.println("Image: " + content.getImageUrl());
             System.out.println();
-            
+
+            InputStream inputStream = new URL(content.getImageUrl()).openStream();
+            stickerGenerator.generateSticker(inputStream, content.getTitle());
         }
     }
 }

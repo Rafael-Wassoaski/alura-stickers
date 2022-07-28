@@ -1,4 +1,5 @@
 package util;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -6,11 +7,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class JsonParser {
-    
+/**
+ * JSONParser
+ */
+public class JSONParser {
     private static final Pattern REGEX_ITEMS = Pattern.compile(".*\\[(.+)\\].*");
     private static final Pattern REGEX_ATRIBUTOS_JSON = Pattern.compile("\"(.+?)\":\"(.*?)\"");
-
+    
     public List<Map<String, String>> parse(String json) {
         Matcher matcher = REGEX_ITEMS.matcher(json);
         if (!matcher.find()) {
